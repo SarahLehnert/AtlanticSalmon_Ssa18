@@ -1,4 +1,5 @@
 #R script for running lostruct package (local PCAs)
+
 #open libraries
 library(lostruct)
 library(ggplot2)
