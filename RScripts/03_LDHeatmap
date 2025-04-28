@@ -1,0 +1,208 @@
+#Linkage disequilibrium heat maps - run Plink for LD
+
+#Packages
+#library(reshape2)
+library(gplots)
+
+setwd("~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/")
+
+##Run LD in plink for canada and norway seperately  for Ssa18 in the region
+nor_list<-read.table("Life_history/Norway_Pop_List", header=F)
+id_list<-read.table("Genomic_data/CIGENE_alldata_2021_NAEU_with_HUNT_maf005.fam", header=F)
+combine_ID_list<- merge(x=nor_list, y=id_list)
+write.table(combine_ID_list[,1:2],file = "Life_history/Norway_Pop_List_ID.txt", quote = F, row.names = F, col.names = F, sep="\t")
+
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldata_2021_NAEU_with_HUNT_maf005 --keep ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Life_history/Norway_Pop_List_ID.txt --chr-set 30  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_NORWAY_only --make-bed")
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldata_2021_NAEU_with_HUNT_maf005 --remove ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Life_history/Norway_Pop_List_ID.txt --chr-set 30  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_CANADA_only --make-bed")
+
+
+#Subset region of interest:
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_NORWAY_only --chr-set 30 --chr 18 --from-bp 30000000 --to-bp 60000000  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_NORWAY_only_Ssa18_region --r2 square --make-bed")
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_CANADA_only --chr-set 30 --chr 18 --from-bp 30000000 --to-bp 60000000  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region --r2 square --make-bed")
+
+
+
+#############################
+##LD heatmap
+
+#read in LD for Canada
+mat_CAN=data.table::fread("Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region.ld", header=F)
+mat_CAN2=as.matrix(mat_CAN)
+dim(mat_CAN2)
+
+#Read in LD for Norway
+mat_NOR=data.table::fread("Genomic_data/CIGENE_alldat_maf005_NORWAY_only_Ssa18_region.ld", header=F)
+mat_NOR2=as.matrix(mat_NOR)
+dim(mat_NOR2)
+
+#Create matrix with upper tri as Pop1 and lower tri as Pop2 - to compare Canada vs. Norway
+new<-mat_NOR2
+diag(new) <- 1
+new[upper.tri(new)] <- mat_CAN2[upper.tri(mat_CAN2)]
+diag(new) <- NA
+
+#Read SNP info
+mapInfo=read.table("Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region.bim", header=F)
+
+#Create colour bar for heatmap - where section of interest is indicated in grey
+mapInfo$col=rep("white")
+mapInfo$col[which(mapInfo$V4>50282126 & mapInfo$V4<52929573)]<-"gray"
+
+#colour palette for heatmap
+mypalette4<-colorRampPalette(c("aliceblue", "blue", "firebrick"))
+
+
+#Saved as 8x8 PDF
+pdf(file="LD/LDmatrix_Ssa19_can_vs_norway.pdf", width = 13, height=12, bg = "white")
+gplots::heatmap.2(new, main = "LD within continents 30-60 Mbp",
+                  Rowv=FALSE, #rows should be reordered as required
+                  Colv = "Rowv", #columns should be treated as rows
+                  dendrogram="none", #no trees
+                  scale="none",
+                  breaks=100, #number of break points used to bin into colours
+                  col=mypalette4,
+                  trace="none", #whether lines should be drawn between cols, rows,
+                  margins=c(5,5),#margins for column names and row names
+                  labRow= " ",
+                  labCol= " ",
+                  ColSideColors = mapInfo$col,
+                  RowSideColors = mapInfo$col,
+                  key=TRUE,
+                  xlab="Norway",
+                  ylab="Canada",
+                  
+                  keysize = 1,
+                  density.info="none"
+                  #lmat = rbind(c(3,1),c(4,2)), #order of elements (1 is heatmap, 4 is key) #makes the plot a 2x2 grid, each "cell" has 1 element - row tree, key, col tree, and heatmap
+                  #lhei = c(20,5), #row height for plot elements
+                  #lwid = c(8,30)  #column width for plot elements)
+)
+dev.off()
+
+png(file="LD/LDmatrix_Ssa19_can_vs_norway.png",
+    width=3000, height=3200, res = 300)
+gplots::heatmap.2(new, main = "LD within continents 30-60 Mbp",
+                  Rowv=FALSE, #rows should be reordered as required
+                  Colv = "Rowv", #columns should be treated as rows
+                  dendrogram="none", #no trees
+                  scale="none",
+                  breaks=100, #number of break points used to bin into colours
+                  col=mypalette4,
+                  trace="none", #whether lines should be drawn between cols, rows,
+                  margins=c(5,5),#margins for column names and row names
+                  labRow= " ",
+                  labCol= " ",
+                  ColSideColors = mapInfo$col,
+                  RowSideColors = mapInfo$col,
+                  key=TRUE,
+                  xlab="Norway",
+                  ylab="Canada",
+                  
+                  keysize = 1,
+                  density.info="none"
+                  #lmat = rbind(c(3,1),c(4,2)), #order of elements (1 is heatmap, 4 is key) #makes the plot a 2x2 grid, each "cell" has 1 element - row tree, key, col tree, and heatmap
+                  #lhei = c(20,5), #row height for plot elements
+                  #lwid = c(8,30)  #column width for plot elements)
+)
+dev.off()
+
+
+########### Try smaller region
+
+#Subset region of interest:
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_NORWAY_only --chr-set 30 --chr 18 --from-bp 41000000 --to-bp 56000000  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_NORWAY_only_Ssa18_region_smaller --r2 square --make-bed")
+system("cd ~/Desktop/Software/plink_mac_20200219/; ./plink --bfile ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_CANADA_only --chr-set 30 --chr 18 --from-bp 41000000 --to-bp 56000000  --out ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region_smaller --r2 square --make-bed")
+
+
+
+#############################
+
+snps<-read.table("Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region_smaller.bim", header=F)
+plot(x=snps$V4, y=1:nrow(snps))
+
+##LD heatmap
+
+
+
+#read in LD for Canada
+mat_CAN=data.table::fread("Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region_smaller.ld", header=F)
+mat_CAN2=as.matrix(mat_CAN)
+dim(mat_CAN2)
+
+#Read in LD for Norway
+mat_NOR=data.table::fread("Genomic_data/CIGENE_alldat_maf005_NORWAY_only_Ssa18_region_smaller.ld", header=F)
+mat_NOR2=as.matrix(mat_NOR)
+dim(mat_NOR2)
+
+#Create matrix with upper tri as Pop1 and lower tri as Pop2 - to compare Canada vs. Norway
+new<-mat_NOR2
+diag(new) <- 1
+new[upper.tri(new)] <- mat_CAN2[upper.tri(mat_CAN2)]
+diag(new) <- NA
+
+#Read SNP info
+mapInfo=read.table("Genomic_data/CIGENE_alldat_maf005_CANADA_only_Ssa18_region_smaller.bim", header=F)
+
+#Create colour bar for heatmap - where section of interest is indicated in grey
+mapInfo$col=rep("white")
+mapInfo$col[which(mapInfo$V4>50282126 & mapInfo$V4<52929573)]<-"gray"
+
+(52929573-50282126)
+
+#colour palette for heatmap
+mypalette4<-colorRampPalette(c("aliceblue", "blue", "firebrick"))
+
+
+#Saved as 8x8 PDF
+pdf(file="LD/LDmatrix_Ssa19_can_vs_norway_closerup.pdf", width = 13, height=12, bg = "white")
+gplots::heatmap.2(new, main = "LD within continents 41-56 Mbp",
+                  Rowv=FALSE, #rows should be reordered as required
+                  Colv = "Rowv", #columns should be treated as rows
+                  dendrogram="none", #no trees
+                  scale="none",
+                  breaks=100, #number of break points used to bin into colours
+                  col=mypalette4,
+                  trace="none", #whether lines should be drawn between cols, rows,
+                  margins=c(5,5),#margins for column names and row names
+                  labRow= " ",
+                  labCol= " ",
+                  ColSideColors = mapInfo$col,
+                  RowSideColors = mapInfo$col,
+                  key=TRUE,
+                  xlab="Norway",
+                  ylab="Canada",
+                  
+                  keysize = 1,
+                  density.info="none"
+                  #lmat = rbind(c(3,1),c(4,2)), #order of elements (1 is heatmap, 4 is key) #makes the plot a 2x2 grid, each "cell" has 1 element - row tree, key, col tree, and heatmap
+                  #lhei = c(20,5), #row height for plot elements
+                  #lwid = c(8,30)  #column width for plot elements)
+)
+dev.off()
+
+png(file="LD/LDmatrix_Ssa19_can_vs_norway_closerup.png",
+    width=3000, height=3200, res = 300)
+gplots::heatmap.2(new, main = "LD within continents 41-56 Mbp",
+                  Rowv=FALSE, #rows should be reordered as required
+                  Colv = "Rowv", #columns should be treated as rows
+                  dendrogram="none", #no trees
+                  scale="none",
+                  breaks=100, #number of break points used to bin into colours
+                  col=mypalette4,
+                  trace="none", #whether lines should be drawn between cols, rows,
+                  margins=c(5,5),#margins for column names and row names
+                  labRow= " ",
+                  labCol= " ",
+                  ColSideColors = mapInfo$col,
+                  RowSideColors = mapInfo$col,
+                  key=TRUE,
+                  xlab="Norway",
+                  ylab="Canada",
+                  
+                  keysize = 1,
+                  density.info="none"
+                  #lmat = rbind(c(3,1),c(4,2)), #order of elements (1 is heatmap, 4 is key) #makes the plot a 2x2 grid, each "cell" has 1 element - row tree, key, col tree, and heatmap
+                  #lhei = c(20,5), #row height for plot elements
+                  #lwid = c(8,30)  #column width for plot elements)
+)
+dev.off()
