@@ -1,7 +1,7 @@
 # Atlantic salmon Ssa18 paper
 ### Scripts for: Large haplotypes linked to climate and life history variation in divergent lineages of Atlantic salmon (Salmo salar)
 
-Bioinformatics scripts and R scripts for Atlantic salmon manuscript on Ssa18 haplotypes.
+Bioinformatics scripts and R scripts for Atlantic salmon manuscript on Ssa18 haplotypes
 
 __Contact:__   sarah.lehnert@dfo-mpo.gc.ca
 
