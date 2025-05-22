@@ -46,82 +46,80 @@ setwd("c:/Users/LehnertS/Desktop/Smolt_Paper/figures/Rscript_map/")
 
 # skip over these lines because the Rdata file for eastern Canada is already created
 
-# tmpcoastal <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                       layer = "ne_10m_coastline")
-#  
-# coastal <- fortify(tmpcoastal)  # this is a spatial lines dataframe
-# 
-# #note that this layer states_provinces matches exactly the coastline layer
-# tmpprov <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/10m_cultural", 
-#                     layer = "ne_10m_admin_1_states_provinces")  
-# 
-# prov2 <- fortify(tmpprov)  # this is a spatial polygon dataframe
-#  
-# tmpland <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                   layer = "ne_10m_land_scale_rank")
-# land2 <- fortify(tmpland)  # this is a spatial polygon dataframe
-# 
-# tmprivers <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                     layer = "ne_10m_rivers_lake_centerlines_scale_rank")
-# riv2 <- fortify(tmprivers)  # this is a spatial lines dataframe
-#  
-# tmprivers <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                       layer = "ne_10m_rivers_north_america")
-# rivnac2 <- fortify(tmprivers)  # this is a spatial lines dataframe
-#  
-# tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                      layer = "ne_10m_lakes")  
-# lakes2 <- fortify(tmplakes)  # this is a spatial polygons dataframe
-#  
-# tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                    layer = "ne_10m_lakes_historic")   # this is a spatial polygons dataframe
-# lakes3 <- fortify(tmplakes) # this is a spatial polygons dataframe
-#  
-# tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                    layer = "ne_10m_lakes_north_america")   # this is a spatial polygons dataframe
-# lakesnac2 <- fortify(tmplakes) # this is a spatial polygons dataframe
-# # 
-# # bathymetry line for 200 m
-# tmpbath <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
-#                   layer = "ne_10m_bathymetry_K_200")  
-# 
-# bath200 <- fortify(tmpbath)  # this is a spatial polygon dataframe
-# 
-# #these are big files and they take time to plot as they contain information for the entire globe
-# #to streamline the plotting process, I selected the data corresponding to the area for eastern Canada
-# #keep only geographic area of interest between latitude 40 to 70, longitude -45 to -80
-# #you use the pipeline %>% and functions that are in package dplyr to filter longitude and latitude
-# 
-# prov_nor <- prov2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# 
-# land_nor <- land2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# riv_nor <- riv2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# rivnac_nor <- rivnac2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# lakes_nor <- lakes2 %>% filter(long <= 45, long >= -10,lat <= 80, lat >= 45)
-# lakeshist_nor <- lakes3 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# lakesnac_nor <- lakesnac2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
-# 
+tmpcoastal <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                       layer = "ne_10m_coastline")
+  
+coastal <- fortify(tmpcoastal)  # this is a spatial lines dataframe
+
+#note that this layer states_provinces matches exactly the coastline layer
+tmpprov <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/10m_cultural", 
+                    layer = "ne_10m_admin_1_states_provinces")  
+
+prov2 <- fortify(tmpprov)  # this is a spatial polygon dataframe
+ 
+tmpland <- readOGR(dsn = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                  layer = "ne_10m_land_scale_rank")
+land2 <- fortify(tmpland)  # this is a spatial polygon dataframe
+
+tmprivers <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                    layer = "ne_10m_rivers_lake_centerlines_scale_rank")
+riv2 <- fortify(tmprivers)  # this is a spatial lines dataframe
+  
+tmprivers <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                      layer = "ne_10m_rivers_north_america")
+rivnac2 <- fortify(tmprivers)  # this is a spatial lines dataframe
+  
+tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                      layer = "ne_10m_lakes")  
+lakes2 <- fortify(tmplakes)  # this is a spatial polygons dataframe
+  
+tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                   layer = "ne_10m_lakes_historic")   # this is a spatial polygons dataframe
+lakes3 <- fortify(tmplakes) # this is a spatial polygons dataframe
+  
+tmplakes <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                   layer = "ne_10m_lakes_north_america")   # this is a spatial polygons dataframe
+lakesnac2 <- fortify(tmplakes) # this is a spatial polygons dataframe
+ 
+# bathymetry line for 200 m
+tmpbath <- readOGR(dsn ="C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles", 
+                  layer = "ne_10m_bathymetry_K_200")  
+bath200 <- fortify(tmpbath)  # this is a spatial polygon dataframe
+ 
+#these are big files and they take time to plot as they contain information for the entire globe
+#to streamline the plotting process, I selected the data corresponding to the area for eastern Canada
+#keep only geographic area of interest between latitude 40 to 70, longitude -45 to -80
+#you use the pipeline %>% and functions that are in package dplyr to filter longitude and latitude
+
+prov_nor <- prov2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+ 
+land_nor <- land2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+riv_nor <- riv2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+rivnac_nor <- rivnac2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+lakes_nor <- lakes2 %>% filter(long <= 45, long >= -10,lat <= 80, lat >= 45)
+lakeshist_nor <- lakes3 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+lakesnac_nor <- lakesnac2 %>% filter(long <= 45, long >= -10, lat <= 80, lat >= 45)
+
 # #For eastern canada
-#  prov <- prov2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  land <- land2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  riv <- riv2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  rivnac <- rivnac2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  lakes <- lakes2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  lakeshist <- lakes3 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-#  lakesnac <- lakesnac2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
-# 
+prov <- prov2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+land <- land2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+riv <- riv2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+rivnac <- rivnac2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+lakes <- lakes2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+lakeshist <- lakes3 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+lakesnac <- lakesnac2 %>% filter(long <= -45, long >= -80, lat <= 70, lat >= 40)
+ 
 # #save these as a list and save it as Rdata
-# geodata <- list("coastal" = coastal, "prov" = c(prov, prov_nor), "land" = c(land, land_nor), "riv" = c(riv, riv_nor), "rivnac" = c(rivnac, rivnac_nor), "lakes" = c(lakes, lakes_nor), "lakeshist" = c(lakeshist, lakeshist_nor), "lakesnac" = c(lakesnac, lakesnac_nor),
-#                  "bath200" = bath200)
+geodata <- list("coastal" = coastal, "prov" = c(prov, prov_nor), "land" = c(land, land_nor), "riv" = c(riv, riv_nor), "rivnac" = c(rivnac, rivnac_nor), "lakes" = c(lakes, lakes_nor), "lakeshist" = c(lakeshist, lakeshist_nor), "lakesnac" = c(lakesnac, lakesnac_nor),
+                 "bath200" = bath200)
 # 
 # 
-# save(geodata, file = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/both_geodata_dataframe.Rdata")
+save(geodata, file = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/both_geodata_dataframe.Rdata")
 
-# start from here to make maps
+# start from here to make maps (if running later)
 # load the reduced geodata as dataframes
-
-load(file = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/both_geodata_dataframe.Rdata")
-attach(geodata)  # this breaks up the list into its dataframes that you can then call by name
+#load(file = "C:/Users/LehnertS/Desktop/COSEWIC/DU_Maps/rasterfiles/both_geodata_dataframe.Rdata")
+#attach(geodata)  # this breaks up the list into its dataframes that you can then call by name
 
 # DNA sampled rivers database file for plotting
 dnaall <- read.table("Population_Clustering_PCA_by_6groups_Chr18_counts.txt", header = TRUE, stringsAsFactors=FALSE)
