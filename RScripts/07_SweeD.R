@@ -4,10 +4,10 @@
 #ran files trhough plink (in previous filter script - and added --recode-vcf to make these files as vcf format for Sweed 4.0)
 
 #run sweed
-system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input /Users/ianbradbury/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/AA_genotypes_only_Ssa18_wholeChr_Europe.vcf -grid 200 -name ssa18_SmoltAge_sweed_EuropeAA_geno")
-system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input /Users/ianbradbury/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/BB_genotypes_only_Ssa18_wholeChr_Europe.vcf -grid 200 -name ssa18_SmoltAge_sweed_EuropeBB_geno")
-system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input /Users/ianbradbury/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/AA_genotypes_only_Ssa18_wholeChr_NorthAm.vcf -grid 200 -name ssa18_SmoltAge_sweed_NorthamAA_geno")
-system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input /Users/ianbradbury/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CC_genotypes_only_Ssa18_wholeChr_NorthAm.vcf -grid 200 -name ssa18_SmoltAge_sweed_NorthamCC_geno")
+system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/AA_genotypes_only_Ssa18_wholeChr_Europe.vcf -grid 200 -name ssa18_SmoltAge_sweed_EuropeAA_geno")
+system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/BB_genotypes_only_Ssa18_wholeChr_Europe.vcf -grid 200 -name ssa18_SmoltAge_sweed_EuropeBB_geno")
+system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/AA_genotypes_only_Ssa18_wholeChr_NorthAm.vcf -grid 200 -name ssa18_SmoltAge_sweed_NorthamAA_geno")
+system("cd ~/Desktop/Software/sweed-master/; ./SweeD -input ~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/Genomic_data/CC_genotypes_only_Ssa18_wholeChr_NorthAm.vcf -grid 200 -name ssa18_SmoltAge_sweed_NorthamCC_geno")
 
 
 ##Combining and plotting data:
