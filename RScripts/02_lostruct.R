@@ -1,4 +1,5 @@
 #R script for running lostruct package (local PCAs)
+#Note I created a function (located at end of script) to run lostruct 
 
 #open libraries
 library(lostruct)
@@ -7,8 +8,6 @@ library(cowplot)
 library(adegenet)
 library(qqman)
 
-#Clear
-#rm(list = ls())
 
 #Set working directory
 setwd("~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/lostruc/")
