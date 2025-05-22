@@ -19,6 +19,7 @@ library(openxlsx)
 library(cowplot)
 
 #This script was adapted from one shared with me from Gerald Chaput (DFO)
+#Some packages may not work with newer versions of R
 
 options(stringsAsFactors = FALSE)
 setwd("c:/Users/LehnertS/Desktop/Smolt_Paper/figures/Rscript_map/")
