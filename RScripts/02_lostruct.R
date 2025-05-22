@@ -45,16 +45,10 @@ colnames(map2) <- c("V1", "V2", "V3", "V4")
 #My input
 vcf <- genome220 #220K in loaded data (see read_vcf above)
 dim(vcf)
-map <- map2 #map in loaded data
-chr_num="17" #try ssa08
-cores=40 
-window=100
-k_num=2
-groupings=group #groupings for PCA plotting
-Inds=IDs$V2 #vector of individual IDs to add to PCA plotting
+Inds <- IDs$V2 #vector of individual IDs to add to PCA plotting
 
 
-##See script at bottom for running lostruc - developed this to have quick script for running individual chromosome data
+##See function (script) at end for running lostruc - developed this to have quick script for running individual chromosome data
 #Run function at bottom first - and then run code here.
 
 setwd("~/Desktop/Sarah/Salmon/Smolt_age/UpdatedData_April2022/lostruc/50snp_window")
@@ -166,8 +160,8 @@ combined_names<-merge(x=IDs,y=ind_names, by.x="V2", by.y="V2",sort = F)
 groupings <- combined_names$V1.y
 
 #Get first and last SNP in an outlier window -eg for Ssa18 here - extracted from VCF info
-min_forpeak_translocation=which(VCF_data_with_info$V4 == 36027179 & VCF_data_with_info$V1 == 18) 
-max_forpeak_translocation=which(VCF_data_with_info$V4 == 43424204 & VCF_data_with_info$V1 == 18) 
+min_forpeak_translocation=which(VCF_data_with_info$V4 == 50282126 & VCF_data_with_info$V1 == 18) 
+max_forpeak_translocation=which(VCF_data_with_info$V4 == 52929573 & VCF_data_with_info$V1 == 18) 
 
 #Create genind data for PCA (adegenet) and run PCA
 chr_matrix_highestMDS_trans <- as.genind(t(vcf[min_forpeak_translocation:max_forpeak_translocation,]))
