@@ -9,7 +9,8 @@ __Contact:__   sarah.lehnert@dfo-mpo.gc.ca
 1. Data filtering of 220K SNP array
 2. Local PCA (lostruc)
 3. PCAdapt and linkage disquilibrium
-4. Selection analyses
-5. Allele frequency associations (smolt age, environment)
+4. FST analyses
+5. Selection analyses
+6. Allele frequency associations (smolt age, environment)
 
 
