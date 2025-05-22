@@ -26,16 +26,6 @@ setwd("c:/Users/LehnertS/Desktop/Smolt_Paper/figures/Rscript_map/")
 #+++++++++++++++++++
 
 
-# ggplot does not work with spatial objects like shape files or raster images. You need to convert them into data.frames.
-# In case you're working with SpatialPointsDataFrame, this is as simple as:
-#    mapdata <- data.frame(yourshapefile)
-#    ggplot() +  geom_point( data= mapdata, aes(x=long, y=lat), color="red")
-# In case you're working with SpatialPolygonsDataFrame, you need to fortify the object, like this:
-#   yourshapefile_df <- fortify(yourshapefile, region ="id")
-# now create the map
-#  ggplot() + geom_point(data= yourshapefile_df, aes(x=long, y=lat, group=group), .....color="red"...
-# or geom_polygon
-
 
 #############################
 # geospatial data were obtained from : https://www.naturalearthdata.com/downloads/
@@ -146,14 +136,12 @@ testmap_norway <-   ggplot() +
   theme_bw() + 
   geom_polygon(data = land_nor, 
                aes(x=long, y = lat, group = group), fill = "gray95", colour="gray50") +
-#geom_polygon(data = bath200, aes(x=long, y = lat, group = group), linetype = 2, fill = NA, color="grey30") +
 geom_path(data=riv_nor, aes(x = long, y = lat, group = group), color="lightblue") +
 geom_path(data=rivnac_nor, aes(x = long, y = lat, group = group), color = "lightblue") +
 geom_polygon(data = lakes_nor, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
 geom_polygon(data = lakesnac_nor, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
 geom_polygon(data = lakeshist_nor, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
 geom_polygon(data = prov_nor, aes(x=long, y = lat, group = group), fill = NA, color="gray50", size = 0.1) +
-#geom_polygon(data = fedlands, aes(x=long, y = lat, group = group), fill = "lightgreen", color="lightgreen") +
   geom_point(data = dnarivers[which(dnarivers$Continent=="Norway"),], aes(x=Long, y = Lat), colour = "black", fill = "firebrick3", shape = 21, size =4, alpha = 0.95) +
   labs( x = "Longitude",  y = "Latitude") + 
   theme(
@@ -186,14 +174,12 @@ testmap_can <-   ggplot() +
   theme_bw() + 
   geom_polygon(data = land, 
                aes(x=long, y = lat, group = group), fill = "gray95", colour="gray50") +
-  #geom_polygon(data = bath200, aes(x=long, y = lat, group = group), linetype = 2, fill = NA, color="grey30") +
   geom_path(data=riv, aes(x = long, y = lat, group = group), color="lightblue") +
  geom_path(data=rivnac, aes(x = long, y = lat, group = group), color = "lightblue") +
   geom_polygon(data = lakes, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
  geom_polygon(data = lakesnac, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
  geom_polygon(data = lakeshist, aes(x=long, y = lat, group = group), fill = "lightblue", color="lightblue") +
  geom_polygon(data = prov, aes(x=long, y = lat, group = group), fill = NA, color="gray50", size = 0.1) +
- #geom_polygon(data = fedlands, aes(x=long, y = lat, group = group), fill = "lightgreen", color="lightgreen") +
   geom_point(data = dnarivers[which(dnarivers$Continent=="NorthAm"),], aes(x=Long, y = Lat), colour = "black", fill = "firebrick3", shape = 21, size =4, alpha = 0.95) +
   labs( x = "Longitude",  y = "Latitude") + 
   theme(
