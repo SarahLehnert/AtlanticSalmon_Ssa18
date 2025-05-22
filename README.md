@@ -8,7 +8,7 @@ __Contact:__   sarah.lehnert@dfo-mpo.gc.ca
 
 ### Project Components
 1. Data filtering of 220K SNP array
-2. Local PCA (lostruc)
+2. Local PCA (lostruct)
 3. PCAdapt and linkage disquilibrium
 4. FST analyses
 5. Selection analyses
